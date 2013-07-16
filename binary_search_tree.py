@@ -55,10 +55,10 @@ class Tree(object):
 
   # Procedural __repr__
   def __repr__(self):
-    def _repr(self):
-      return '[%s %d %s]' % (_repr(self.left), self.root, _repr(self.right)) if self else ''
+    def inner___repr__(self):
+      return '[%s %d %s]' % (inner___repr__(self.left), self.root, inner___repr__(self.right)) if self else ''
       
-    return _repr(self)
+    return inner___repr__(self)
 
   def gprint(self):
     def string_splice(str, start, end, value, fill_char = ' '):
@@ -153,10 +153,10 @@ class Tree(object):
     return max(left_height, right_height) + 1
 
   def procedural_height(self):
-    def _procedural_height(tree):
-      return 0 if not tree else max(_procedural_height(tree.left), _procedural_height(tree.right)) + 1
+    def inner_procedural_height(tree):
+      return 0 if not tree else max(inner_procedural_height(tree.left), inner_procedural_height(tree.right)) + 1
     
-    return _procedural_height(self)
+    return inner_procedural_height(self)
 
   def count(self):
     if self.is_leaf(): return 1
@@ -167,16 +167,16 @@ class Tree(object):
     return left_count + right_count + 1
 
   def procedural_count(self):
-    def _procedural_count(tree):
-      return 0 if not tree else _procedural_count(tree.left) + _procedural_count(tree.right) + 1
+    def inner_procedural_count(tree):
+      return 0 if not tree else inner_procedural_count(tree.left) + inner_procedural_count(tree.right) + 1
     
-    return _procedural_count(self)
+    return inner_procedural_count(self)
 
   def procedural_max(self):
-    def _procedural_max(tree):
-      return -float('inf') if not tree else max(tree.root, _procedural_max(tree.left), _procedural_max(tree.right))
+    def inner_procedural_max(tree):
+      return -float('inf') if not tree else max(tree.root, inner_procedural_max(tree.left), inner_procedural_max(tree.right))
       
-    return _procedural_max(self)
+    return inner_procedural_max(self)
 
 if __name__ == '__main__':
   import random
