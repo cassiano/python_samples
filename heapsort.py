@@ -1,36 +1,53 @@
-a = [2, 4, 1, 5, 0, 3]
+def parent_index(n):      return (n - 1) / 2
+def parent(heap, n):      return heap[parent_index(n)]
+def left_index(n, tail):  return 2 * n + 1 if 2 * n + 1 <= tail else None
+def left(heap, n, tail):  return heap[left_index(n, tail)] if left_index(n, tail) else None
+def right_index(n, tail): return 2 * n + 2 if 2 * n + 2 <= tail else None
+def right(heap, n, tail): return heap[right_index(n, tail)] if right_index(n, tail) else None
+def swap(heap, n, m):     heap[n], heap[m] = heap[m], heap[n]
 
-def parent_index(n):  return (n - 1) / 2
-def parent(heap, n):  return heap[parent_index(n)]
-def left_index(n):    return 2 * n + 1
-def left(heap, n):    return heap[left_index(n)]
-def right_index(n):   return 2 * n + 2
-def right(heap, n):   return heap[right_index(n)]
-def swap(heap, n, m): heap[n], heap[m] = heap[m], heap[n]
-
-def heapify(heap, n):
+def heapify_down(heap, n):
   if n == 0 or parent(heap, n) >= heap[n]: return
   swap(heap, n, parent_index(n))
-  heapify(heap, parent_index(n))
+  heapify_down(heap, parent_index(n))
 
-# TODO: find a better method name.  
-def unheapify(heap, n, last_index):
-  if (left_index(n) > last_index or heap[n] >= left(heap, n)) and (right_index(n) > last_index or heap[n] >= right(heap, n)): return
+def heapify_up(heap, n, tail):
+  li = left_index(n, tail)
+  l  = left(heap, n, tail)
+  ri = right_index(n, tail)
+  r  = right(heap, n, tail)
   
-  max_child = max(left(heap, n), right(heap, n))
-  child_index = left_index(n) if max_child == left(heap, n) else right_index(n)
+  if (not li or heap[n] >= l) and (not ri or heap[n] >= r): return
+  
+  max_child = max(l, r)
+  child_index = li if max_child == l else ri
   swap(heap, n, child_index)
-  unheapify(heap, child_index, last_index)
+  heapify_up(heap, child_index, tail)
 
-print(a)
-
-for i in range(1, len(a)):
-  heapify(a, i)
+if __name__ == '__main__':
+  import random
   
-print(a)
+  COUNT     = 20
+  MAX_VALUE = 99
 
-for i in range(len(a) - 1):
-  swap(a, 0, len(a) - 1 - i)
-  unheapify(a, 0, (len(a) - i - 1) - 1)
+  a = []
+  for i in range(COUNT): a.append(random.randint(0, MAX_VALUE))
 
-print(a)
+  print('-- Original Array -----------')
+  print(a)
+
+  for i in range(1, len(a)):
+    heapify_down(a, i)
+  
+  print('-- After Heapification -----------')
+  print(a)
+
+  for i in range(len(a) - 1):
+    swap(a, 0, len(a) - i - 1)
+    heapify_up(a, 0, (len(a) - i - 1) - 1)
+
+    # print('-- After pass %d -----------' % i)
+    # print(a)
+
+  print('-- Sorted Array -----------')
+  print(a)
