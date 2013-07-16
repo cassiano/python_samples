@@ -27,6 +27,20 @@ def heapify_up(heap, i, n):
   swap(heap, i, child_idx)
   heapify_up(heap, child_idx, n)
 
+def heapsort(collection):
+  for k in range(1, len(collection)):
+    heapify_down(collection, k)
+  
+  print('-- After Heapification -----------')
+  print(collection)
+
+  for k in range(len(collection) - 1):
+    swap(a, 0, len(collection) - k - 1)
+    heapify_up(collection, 0, (len(collection) - k - 1) - 1)
+
+    # print('-- After pass %d -----------' % k)
+    # print(collection)
+
 if __name__ == '__main__':
   import random
   
@@ -39,18 +53,7 @@ if __name__ == '__main__':
   print('-- Original Array -----------')
   print(a)
 
-  for k in range(1, len(a)):
-    heapify_down(a, k)
-  
-  print('-- After Heapification -----------')
-  print(a)
-
-  for k in range(len(a) - 1):
-    swap(a, 0, len(a) - k - 1)
-    heapify_up(a, 0, (len(a) - k - 1) - 1)
-
-    # print('-- After pass %d -----------' % i)
-    # print(a)
+  heapsort(a)
 
   print('-- Sorted Array -----------')
   print(a)
