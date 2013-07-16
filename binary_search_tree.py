@@ -184,17 +184,17 @@ if __name__ == '__main__':
   
   if sys.version_info < (3,): range = xrange
       
-  # TOTAL_NODES = 40
-  # MAX_VALUE   = 99
-  # 
-  # # Populate the tree with TOTAL_NODES random integers (from 1 to MAX_VALUE).
-  # tree = Tree(random.randint(1, MAX_VALUE))
-  # for _ in range(TOTAL_NODES - 1): tree.add(random.randint(1, MAX_VALUE))
+  TOTAL_NODES = 40
+  MAX_VALUE   = 99
+  
+  # Populate the tree with TOTAL_NODES random integers (from 1 to MAX_VALUE).
+  tree = Tree(random.randint(1, MAX_VALUE))
+  for _ in range(TOTAL_NODES - 1): tree.add(random.randint(1, MAX_VALUE))
 
   # Populate the tree top-down. Check graphical versions in https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree.
-  tree = Tree(50)
-  for value in [17, 12, 9, 14, 23, 19, 72, 54, 67, 76]:
-    tree.add(value)
+  # tree = Tree(50)
+  # for value in [17, 12, 9, 14, 23, 19, 72, 54, 67, 76]:
+  #   tree.add(value)
 
   # Populate the tree bottom-up.
   # tree1  = Tree(1)
