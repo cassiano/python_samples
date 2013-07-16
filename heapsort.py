@@ -1,50 +1,53 @@
-def parent_index(n):      return (n - 1) / 2
-def parent(heap, n):      return heap[parent_index(n)]
-def left_index(n, tail):  return 2 * n + 1 if 2 * n + 1 <= tail else None
-def left(heap, n, tail):  return heap[left_index(n, tail)] if left_index(n, tail) else None
-def right_index(n, tail): return 2 * n + 2 if 2 * n + 2 <= tail else None
-def right(heap, n, tail): return heap[right_index(n, tail)] if right_index(n, tail) else None
-def swap(heap, n, m):     heap[n], heap[m] = heap[m], heap[n]
+# n = index of the last heap element.
+# i = index of the current heap element.
 
-def heapify_down(heap, n):
-  if n == 0 or parent(heap, n) >= heap[n]: return
-  swap(heap, n, parent_index(n))
-  heapify_down(heap, parent_index(n))
+def parent_index(i):    return (i - 1) / 2
+def parent(heap, i):    return heap[parent_index(i)]
+def left_index(i, n):   return 2 * i + 1 if 2 * i + 1 <= n else None
+def left(heap, i, n):   return heap[left_index(i, n)] if left_index(i, n) else None
+def right_index(i, n):  return 2 * i + 2 if 2 * i + 2 <= n else None
+def right(heap, i, n):  return heap[right_index(i, n)] if right_index(i, n) else None
+def swap(heap, i, j):   heap[i], heap[j] = heap[j], heap[i]
 
-def heapify_up(heap, n, tail):
-  li = left_index(n, tail)
-  l  = left(heap, n, tail)
-  ri = right_index(n, tail)
-  r  = right(heap, n, tail)
+def heapify_down(heap, i):
+  if i == 0 or parent(heap, i) >= heap[i]: return
+  swap(heap, i, parent_index(i))
+  heapify_down(heap, parent_index(i))
+
+def heapify_up(heap, i, n):
+  left_idx    = left_index(i, n)
+  left_value  = left(heap, i, n)
+  right_idx   = right_index(i, n)
+  right_value = right(heap, i, n)
   
-  if (not li or heap[n] >= l) and (not ri or heap[n] >= r): return
+  if (not left_idx or heap[i] >= left_value) and (not right_idx or heap[i] >= right_value): return
   
-  max_child = max(l, r)
-  child_index = li if max_child == l else ri
-  swap(heap, n, child_index)
-  heapify_up(heap, child_index, tail)
+  max_child = max(left_value, right_value)
+  child_idx = left_idx if max_child == left_value else right_idx
+  swap(heap, i, child_idx)
+  heapify_up(heap, child_idx, n)
 
 if __name__ == '__main__':
   import random
   
-  COUNT     = 20
+  COUNT     = 50
   MAX_VALUE = 99
 
   a = []
-  for i in range(COUNT): a.append(random.randint(0, MAX_VALUE))
+  for _ in range(COUNT): a.append(random.randint(0, MAX_VALUE))
 
   print('-- Original Array -----------')
   print(a)
 
-  for i in range(1, len(a)):
-    heapify_down(a, i)
+  for k in range(1, len(a)):
+    heapify_down(a, k)
   
   print('-- After Heapification -----------')
   print(a)
 
-  for i in range(len(a) - 1):
-    swap(a, 0, len(a) - i - 1)
-    heapify_up(a, 0, (len(a) - i - 1) - 1)
+  for k in range(len(a) - 1):
+    swap(a, 0, len(a) - k - 1)
+    heapify_up(a, 0, (len(a) - k - 1) - 1)
 
     # print('-- After pass %d -----------' % i)
     # print(a)
