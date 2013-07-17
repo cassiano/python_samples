@@ -63,7 +63,7 @@ class Tree(object):
   def gprint(self):
     def string_splice(str, start, end, value, fill_char = ' '):
       if len(str) < end: str = str + fill_char * (end - len(str))
-      return str[:start] + value + str[(end+1):]
+      return str[:start] + value + str[(end + 1):]
       
     NODE_LENGTH = 2
 
@@ -191,7 +191,7 @@ if __name__ == '__main__':
   tree = Tree(random.randint(1, MAX_VALUE))
   for _ in range(TOTAL_NODES - 1): tree.add(random.randint(1, MAX_VALUE))
 
-  # Populate the tree top-down. Check graphical versions in https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree.
+  # Populate the tree top-down. Check a graphical version of this tree at https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree.
   # tree = Tree(50)
   # for value in [17, 12, 9, 14, 23, 19, 72, 54, 67, 76]:
   #   tree.add(value)
