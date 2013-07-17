@@ -1,30 +1,25 @@
 # n = index of the last heap element.
 # i = index of the current heap element.
 
-def parent_index(i):  return (i - 1) / 2
-def parent(heap, i):  return heap[parent_index(i)]
-
-def left_index(i, n): return 2 * i + 1 if 2 * i + 1 <= n else None
-def left(heap, i, n): return heap[left_index(i, n)] if left_index(i, n) else None
-
-def right_index(i, n):  return 2 * i + 2 if 2 * i + 2 <= n else None
-def right(heap, i, n):  return heap[right_index(i, n)] if right_index(i, n) else None
-
+def parent(i):        return (i - 1) / 2
+def left(i, n):       return 2 * i + 1 if 2 * i + 1 <= n else None
+def right(i, n):      return 2 * i + 2 if 2 * i + 2 <= n else None
 def swap(heap, i, j): heap[i], heap[j] = heap[j], heap[i]
 
 def heapify_up(heap, i):
-  if i == 0 or parent(heap, i) >= heap[i]: return
-  swap(heap, i, parent_index(i))
-  heapify_up(heap, parent_index(i))
+  if i > 0 and heap[parent(i)] < heap[i]:
+    swap(heap, i, parent(i))
+    heapify_up(heap, parent(i))
 
 def heapify_down(heap, i, n):
-  # Return if no child is greater than the current element or if no children at all.
-  if (not left(heap, i, n) or heap[i] >= left(heap, i, n)) and (not right(heap, i, n) or heap[i] >= right(heap, i, n)): return
-
-  max_child = max(left(heap, i, n), right(heap, i, n))                                      # Locate the maximum child.
-  child_index = left_index(i, n) if max_child == left(heap, i, n) else right_index(i, n)    # Locate its index.
-  swap(heap, i, child_index)                                                                # Swap the current node with the above child.
-  heapify_down(heap, child_index, n)                                                          # Heapify the swaped child.
+  largest = i
+  
+  if left(i, n)  and heap[left(i, n)]  > heap[largest]: largest = left(i, n)
+  if right(i, n) and heap[right(i, n)] > heap[largest]: largest = right(i, n)
+  
+  if largest != i:
+    swap(heap, i, largest)
+    heapify_down(heap, largest, n)
 
 def heapsort(collection):
   if len(collection) <= 1: return
@@ -47,7 +42,7 @@ def heapsort(collection):
 if __name__ == '__main__':
   import random
   
-  COUNT     = 50
+  COUNT     = 10
   MAX_VALUE = 99
 
   a = []
