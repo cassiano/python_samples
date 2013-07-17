@@ -12,33 +12,34 @@ def right(heap, i, n):  return heap[right_index(i, n)] if right_index(i, n) else
 
 def swap(heap, i, j): heap[i], heap[j] = heap[j], heap[i]
 
-def heapify_down(heap, i):
+def heapify_up(heap, i):
   if i == 0 or parent(heap, i) >= heap[i]: return
   swap(heap, i, parent_index(i))
-  heapify_down(heap, parent_index(i))
+  heapify_up(heap, parent_index(i))
 
-def heapify_up(heap, i, n):
+def heapify_down(heap, i, n):
   # Return if no child is greater than the current element or if no children at all.
   if (not left(heap, i, n) or heap[i] >= left(heap, i, n)) and (not right(heap, i, n) or heap[i] >= right(heap, i, n)): return
 
   max_child = max(left(heap, i, n), right(heap, i, n))                                      # Locate the maximum child.
   child_index = left_index(i, n) if max_child == left(heap, i, n) else right_index(i, n)    # Locate its index.
   swap(heap, i, child_index)                                                                # Swap the current node with the above child.
-  heapify_up(heap, child_index, n)                                                          # Heapify the swaped child.
+  heapify_down(heap, child_index, n)                                                          # Heapify the swaped child.
 
 def heapsort(collection):
   if len(collection) <= 1: return
 
-  # Heapify the collection, starting with index 2.
+  # Heapify the collection up, starting with index 2.
   for k in range(1, len(collection)):
-    heapify_down(collection, k)
+    heapify_up(collection, k)
   
   print('-- After Heapification -----------')
   print(collection)
 
+  # Heapify the collection down.
   for k in range(len(collection) - 1):
     swap(a, 0, len(collection) - k - 1)
-    heapify_up(collection, 0, (len(collection) - k - 1) - 1)
+    heapify_down(collection, 0, (len(collection) - k - 1) - 1)
 
     # print('-- After pass %d -----------' % k)
     # print(collection)
